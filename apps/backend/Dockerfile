@@ -5,8 +5,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy package.json & pnpm-lock.yaml ke container (sesuaikan kalau pakai yarn/npm)
-COPY ./pnpm-lock.yaml ./  # dari root konteks ke /app di container
-COPY ./apps/backend/package.json ./  # kalau package.json ada di apps/backend
+COPY package.json ./
 
 # Install pnpm dan dependencies
 RUN npm install -g pnpm
