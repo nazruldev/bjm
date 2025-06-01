@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: bjm_postgres
+    environment:
+      POSTGRES_USER: bjm_user
+      POSTGRES_PASSWORD: bjm_password
+      POSTGRES_DB: bjm_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bjm_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bjm_backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://bjm_user:bjm_password@postgres:5432/bjm_db
+      # Tambahkan env lain sesuai kebutuhan
+    ports:
+      - "8004:8004"
+    command: >
+      sh -c "pnpm run migrate:generate && pnpm run migrate:push && node dist/server.js"
+    volumes:
+      - ./:/app
+    restart: unless-stopped
+
+volumes:
+  pgdata:
