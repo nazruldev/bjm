@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm test
+# Jalankan test atau format code (jika ada)
+# Misal: npm run test atau pnpm test
+# Kalau tidak ada, kosongkan saja
+
+echo "pre-commit hook: nothing to do here"

@@ -1,37 +1,27 @@
-# Étape de construction
-FROM node:18-alpine AS builder
+# Base image Node dengan versi LTS
+FROM node:20-alpine
 
-# Création du répertoire de travail
+# Set working directory
 WORKDIR /app
 
-# Copie des fichiers de configuration
-COPY package.json yarn.lock ./
+# Copy package.json & pnpm-lock.yaml ke container (sesuaikan kalau pakai yarn/npm)
+COPY package.json pnpm-lock.yaml ./
 
-# Installation des dépendances du projet
-RUN yarn install --frozen-lockfile
+# Install pnpm dan dependencies
+RUN npm install -g pnpm
+RUN pnpm install --frozen-lockfile
 
-# Copie des fichiers sources (code)
+# Copy semua source code ke container
 COPY . .
 
-# Build du projet
-RUN yarn build
+# Build project (misal pakai bun build atau swc)
+RUN bun build --target=node --outdir=dist src/server.ts
 
-# Étape de production
-FROM node:18-alpine
+# Set environment variable kalau perlu (atau lewat docker-compose)
+ENV NODE_ENV=production
 
-# Création du répertoire de travail
-WORKDIR /app
+# Port yang diekspos (sesuaikan app kamu)
+EXPOSE 8004
 
-# Copie des fichiers nécessaires depuis l'étape de construction
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY package.json start.sh ./
-
-# Création du répertoire de stockage des données
-RUN mkdir -p /app/data
-
-# Attribution des droits d'exécution au script de démarrage
-RUN chmod +x start.sh
-
-# Commande de démarrage du conteneur
-CMD ["./start.sh"]
+# Jalankan migrate lalu start server
+CMD ["sh", "-c", "pnpm run migrate:generate && pnpm run migrate:push && node dist/server.js"]

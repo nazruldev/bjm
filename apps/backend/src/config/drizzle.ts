@@ -1,8 +1,8 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from '@models/index'; // pastikan ini mengakses semua schema kamu
-import 'dotenv/config';
-
+import { dotenvConfig } from "common-deps";
+dotenvConfig();
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });

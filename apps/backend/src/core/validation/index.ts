@@ -1,4 +1,4 @@
-import { ZodSchema, ZodError } from 'zod'
+import { ZodSchema, ZodError } from 'common-deps'
 import { Context } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 
