@@ -1,0 +1,10 @@
+{
+  "include": ["."],
+  "exclude": ["dist", "node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "common-deps/*": ["./*"]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# root .gitignore
+node_modules/
+dist/
+build/
+.env
+.env.* 
+.husky/_/
+pnpm-lock.yaml
+.DS_Store
+*.log
+
+# ignore di dalam workspace
+apps/**/node_modules/
+packages/**/node_modules/
+apps/**/dist/
+apps/**/build/
+packages/**/dist/
+packages/**/build/

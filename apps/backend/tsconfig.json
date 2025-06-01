@@ -1,0 +1,19 @@
+{
+  
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "baseUrl": "./src",
+    "paths": {
+      "@models/*": ["models/*"],
+      "@config/*": ["config/*"],
+      "@middleware/*": ["middlewares/*"],
+      "@util/*": ["utils/*"],
+      "@routes/*": ["routes/*"],
+
+    }
+  }
+}

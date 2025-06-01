@@ -1,0 +1,476 @@
+{
+  "id": "795b614a-b409-4367-8ce6-b63165c56cae",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.entitas": {
+      "name": "entitas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "nama": {
+          "name": "nama",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nik": {
+          "name": "nik",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jenis": {
+          "name": "jenis",
+          "type": "jenis",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telepon": {
+          "name": "telepon",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alamat": {
+          "name": "alamat",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.hutang": {
+      "name": "hutang",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "faktur": {
+          "name": "faktur",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entitas_id": {
+          "name": "entitas_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jenis_hutang": {
+          "name": "jenis_hutang",
+          "type": "jenis_hutang",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'piutang'"
+        },
+        "jumlah_hutang": {
+          "name": "jumlah_hutang",
+          "type": "numeric(15, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sisa_hutang": {
+          "name": "sisa_hutang",
+          "type": "numeric(15, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'pending'"
+        },
+        "tanggal_hutang": {
+          "name": "tanggal_hutang",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "deskripsi": {
+          "name": "deskripsi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "transaksi_faktur_idx": {
+          "name": "transaksi_faktur_idx",
+          "columns": [
+            {
+              "expression": "faktur",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_hutang_jenis_hutang": {
+          "name": "idx_hutang_jenis_hutang",
+          "columns": [
+            {
+              "expression": "jenis_hutang",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_hutang_status": {
+          "name": "idx_hutang_status",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_hutang_tanggal": {
+          "name": "idx_hutang_tanggal",
+          "columns": [
+            {
+              "expression": "tanggal_hutang",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "hutang_entitas_id_entitas_id_fk": {
+          "name": "hutang_entitas_id_entitas_id_fk",
+          "tableFrom": "hutang",
+          "tableTo": "entitas",
+          "columnsFrom": [
+            "entitas_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "hutang_faktur_unique": {
+          "name": "hutang_faktur_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "faktur"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.pembayaran": {
+      "name": "pembayaran",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "transaksi_id": {
+          "name": "transaksi_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jumlah": {
+          "name": "jumlah",
+          "type": "numeric(15, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "biaya_tambahan": {
+          "name": "biaya_tambahan",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::json"
+        },
+        "tanggal_pembayaran": {
+          "name": "tanggal_pembayaran",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metode_pembayaran": {
+          "name": "metode_pembayaran",
+          "type": "metode_pembayaran",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nomor_rekening_transfer": {
+          "name": "nomor_rekening_transfer",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "nama_pengirim_transfer": {
+          "name": "nama_pengirim_transfer",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "nama_penerima_transfer": {
+          "name": "nama_penerima_transfer",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "pembayaran_transaksi_id_transaksi_id_fk": {
+          "name": "pembayaran_transaksi_id_transaksi_id_fk",
+          "tableFrom": "pembayaran",
+          "tableTo": "transaksi",
+          "columnsFrom": [
+            "transaksi_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.transaksi": {
+      "name": "transaksi",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "transactable_type": {
+          "name": "transactable_type",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "transactable_faktur": {
+          "name": "transactable_faktur",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tanggal_transaksi": {
+          "name": "tanggal_transaksi",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jumlah": {
+          "name": "jumlah",
+          "type": "numeric(15, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.jenis": {
+      "name": "jenis",
+      "schema": "public",
+      "values": [
+        "pelanggan",
+        "pemasok",
+        "penjemur",
+        "pengupas",
+        "karyawan"
+      ]
+    },
+    "public.jenis_hutang": {
+      "name": "jenis_hutang",
+      "schema": "public",
+      "values": [
+        "hutang",
+        "piutang"
+      ]
+    },
+    "public.status": {
+      "name": "status",
+      "schema": "public",
+      "values": [
+        "pending",
+        "accepted",
+        "rejected",
+        "owed",
+        "paid"
+      ]
+    },
+    "public.metode_pembayaran": {
+      "name": "metode_pembayaran",
+      "schema": "public",
+      "values": [
+        "TRANSFER",
+        "TUNAI"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
